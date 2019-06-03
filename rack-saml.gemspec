@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = ""
 
   gem.files         = `find . -not \\( -regex ".*\\.git.*" -o -regex "\\./pkg.*" -o -regex "\\./spec.*" \\)`.split("\n").map{ |f| f.gsub(/^.\//, '') }
-  gem.test_files    = `find spec/*`.split("\n")
+  gem.test_files    = []
   gem.name          = "rack-saml"
   gem.require_paths = ["lib"]
   gem.version       = Rack::Saml::VERSION
