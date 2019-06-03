@@ -51,20 +51,26 @@ module Rack
     end
 
     def load_file(type)
+      print "[rack-saml] Loading file of type #{type}"
       if @opts[type].nil? || !::File.exists?(@opts[type])
+        print "[rack-saml] Loading default config for file type #{type}"
         @opts[type] = default_config_path(FILE_NAME[type])
       end
-      eval "@#{type} = YAML.load_file(@opts[:#{type}])"
+      cmd = "@#{type} = YAML.load_file(@opts[:#{type}])"
+      print "[rack-saml] Loading config with instruction '#{cmd}'"
+      eval cmd
     end
 
     def initialize app, opts = {}
       @app = app
       @opts = opts
 
+      print "[rack-saml] Loading configuration files"
       FILE_TYPE.each do |type|
         load_file(type)
       end
 
+      print "[rack-saml] Checking for assertion handler"
       if @config['assertion_handler'].nil?
         raise ArgumentError, "'assertion_handler' parameter should be specified in the :config file"
       end
